@@ -242,7 +242,11 @@ jobs:
 # ------------------------------------------------------------------------------
   android-debug-arm-v7:
     docker:
+<<<<<<< HEAD
       - image: mbgl/de3c86c2ff:android-ndk-r16
+=======
+      - image: mbgl/ci:20171122150543-android-ndk-r16
+>>>>>>> cac6582... [android] - bump CircleCI image
     resource_class: large
     working_directory: /src
     environment:
@@ -334,7 +338,7 @@ jobs:
 # ------------------------------------------------------------------------------
   android-release-all:
     docker:
-      - image: mbgl/ci@sha256:c34e221294d81da80918d3e9a9df5de795b067e88f86d7c9a5e262763332536e
+      - image: mbgl/ci:20171122150543-android-ndk-r16
     resource_class: large
     working_directory: /src
     environment:
