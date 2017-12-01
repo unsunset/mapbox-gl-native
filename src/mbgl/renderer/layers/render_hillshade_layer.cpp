@@ -33,6 +33,13 @@ const std::array<float, 2> RenderHillshadeLayer::getLatRange(const UnwrappedTile
    return {{ (float)latlng0.latitude(), (float)latlng1.latitude() }};
 }
 
+const std::array<float, 3> RenderHillshadeLayer::getLight(const PaintParameters& parameters){
+    float azimuthal = evaluated.get<HillshadeIlluminationDirection>() * util::DEG2RAD;
+    const float zenith = 30.0f * util::DEG2RAD;
+    if (evaluated.get<HillshadeIlluminationAnchor>() == Viewport) azimuthal = azimuthal - parameters.state.getAngle();
+    return {{evaluated.get<HillshadeExaggeration>(), azimuthal, zenith}};
+}
+
 void RenderHillshadeLayer::transition(const TransitionParameters& parameters) {
     unevaluated = impl().paint.transitioned(parameters, std::move(unevaluated));
 }
@@ -68,7 +75,7 @@ void RenderHillshadeLayer::render(PaintParameters& parameters, RenderSource*) {
                 uniforms::u_highlight::Value{ evaluated.get<HillshadeHighlightColor>() },
                 uniforms::u_shadow::Value{ evaluated.get<HillshadeShadowColor>() },
                 uniforms::u_accent::Value{ evaluated.get<HillshadeAccentColor>() },
-                uniforms::u_light::Value{ std::array<float, 3> {{ 1.15f, 335.0f, 30.0f }}},
+                uniforms::u_light::Value{ getLight(parameters) },
                 uniforms::u_latrange::Value{ getLatRange(id) },
             },
             vertexBuffer,
