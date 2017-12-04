@@ -2,6 +2,7 @@ package com.mapbox.mapboxsdk.style.layers;
 
 import android.support.annotation.NonNull;
 
+import com.mapbox.mapboxsdk.style.expressions.Expression;
 import com.mapbox.mapboxsdk.style.functions.Function;
 
 /**
@@ -27,9 +28,17 @@ public abstract class Layer {
     for (PropertyValue<?> property : properties) {
       Object converted = convertValue(property.value);
       if (property instanceof PaintPropertyValue) {
-        nativeSetPaintProperty(property.name, converted);
+        if(converted instanceof Expression) {
+          nativeSetPaintProperty(property.name, ((Expression) converted).toArray());
+        }else{
+          nativeSetPaintProperty(property.name, converted);
+        }
       } else {
-        nativeSetLayoutProperty(property.name, converted);
+        if(converted instanceof Expression) {
+          nativeSetLayoutProperty(property.name, ((Expression) converted).toArray());
+        }else{
+          nativeSetLayoutProperty(property.name, converted);
+        }
       }
     }
   }

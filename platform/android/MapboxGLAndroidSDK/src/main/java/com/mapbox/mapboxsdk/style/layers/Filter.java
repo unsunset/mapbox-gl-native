@@ -8,11 +8,13 @@ import java.util.Collections;
  *
  * @see <a href="https://www.mapbox.com/mapbox-gl-style-spec/#types-filter">The online documentation</a>
  */
+@Deprecated
 public class Filter {
 
   /**
    * Base Filter statement. Subclassed to provide concrete statements.
    */
+  @Deprecated
   public abstract static class Statement {
     protected final String operator;
 
@@ -31,6 +33,7 @@ public class Filter {
   /**
    * Represents a {@link Filter} statement. Can be unary (eg `has()`, etc) or take any number of values.
    */
+  @Deprecated
   private static class SimpleStatement extends Statement {
     private final String key;
     private final Object[] values;
@@ -63,6 +66,7 @@ public class Filter {
   /**
    * Represents a collection of {@link Statement}s with an operator that describes their relationship
    */
+  @Deprecated
   private static class CompoundStatement extends Statement {
     private final Statement[] statements;
 
