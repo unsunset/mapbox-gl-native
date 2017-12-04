@@ -2,6 +2,8 @@ TARGET = qmapboxgl
 
 CONFIG += qt c++14 exceptions warn_off object_parallel_to_source
 
+TEMPLATE = lib
+
 QT += widgets network gui sql
 
 QMAKE_CXXFLAGS += \
@@ -377,14 +379,3 @@ INCLUDEPATH += \
 
 QMAKE_CXXFLAGS += \
     -DMBGL_VERSION_REV=\\\"qt-v1.2.0\\\"
-
-# The demo application
-SOURCES += \
-    platform/qt/app/main.cpp \
-    platform/qt/app/mapwindow.cpp
-
-HEADERS += \
-    platform/qt/app/mapwindow.hpp
-
-RESOURCES += \
-    platform/qt/resources/common.qrc
