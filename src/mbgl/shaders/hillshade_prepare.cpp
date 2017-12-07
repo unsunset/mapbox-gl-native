@@ -1,20 +1,12 @@
 // NOTE: DO NOT CHANGE THIS FILE. IT IS AUTOMATICALLY GENERATED.
 
-  #include <mbgl/shaders/hillshade_prepare.hpp>
+#include <mbgl/shaders/hillshade_prepare.hpp>
 
-  namespace mbgl {
-  namespace shaders {
+namespace mbgl {
+namespace shaders {
 
-  const char* hillshade_prepare::name = "hillshade_prepare";
-  const char* hillshade_prepare::vertexSource = R"MBGL_SHADER(
-  #ifdef GL_ES
-precision highp float;
-#else
-#define lowp
-#define mediump
-#define highp
-#endif
-
+const char* hillshade_prepare::name = "hillshade_prepare";
+const char* hillshade_prepare::vertexSource = R"MBGL_SHADER(
 uniform mat4 u_matrix;
 
 attribute vec2 a_pos;
@@ -24,17 +16,13 @@ varying vec2 v_pos;
 
 void main() {
     gl_Position = u_matrix * vec4(a_pos, 0, 1);
-    v_pos = ((a_texture_pos / 8192.0) / 2.0 - 0.5) + 0.5 + 0.25;
+    v_pos = (a_texture_pos / 8192.0) / 2.0 + 0.25;
 }
 
-  )MBGL_SHADER";
-  const char* hillshade_prepare::fragmentSource = R"MBGL_SHADER(
-  #ifdef GL_ES
+)MBGL_SHADER";
+const char* hillshade_prepare::fragmentSource = R"MBGL_SHADER(
+#ifdef GL_ES
 precision highp float;
-#else
-#define lowp
-#define mediump
-#define highp
 #endif
 
 uniform sampler2D u_image;
@@ -76,8 +64,6 @@ void main() {
     float h = getElevation(v_pos + vec2(0, epsilon.y), 0.0);
     float i = getElevation(v_pos + vec2(epsilon.x, epsilon.y), 0.0);
 
-
-
     // here we divide the x and y slopes by 8 * pixel size
     // where pixel size (aka meters/pixel) is:
     // circumference of the world / (pixels per tile * number of tiles)
@@ -89,14 +75,13 @@ void main() {
     // maxzoom of the tile source. here we use a=0.3 which works out to the
     // expression below. see nickidlugash's awesome breakdown for more info
     // https://github.com/mapbox/mapbox-gl-js/pull/5286#discussion_r148419556
-    float exaggeration = u_zoom < 4.5 ? 0.35 : 0.3;
+    float exaggeration = u_zoom < 2.0 ? 0.4 : u_zoom < 4.5 ? 0.35 : 0.3;
 
     vec2 deriv = vec2(
         (c + f + f + i) - (a + d + d + g),
         (g + h + h + i) - (a + b + b + c)
     ) /  pow(2.0, (u_zoom - 14.0) * exaggeration + 19.2562 - u_zoom);
 
-// (u_zoom > 11.0 ? pow(2.0, 13.5 - u_zoom * 0.5) : pow(2.0, 14.5 - u_zoom * 0.5))
     gl_FragColor = clamp(vec4(
         deriv.x / 2.0 + 0.5,
         deriv.y / 2.0 + 0.5,
@@ -108,8 +93,7 @@ void main() {
 #endif
 }
 
-  )MBGL_SHADER";
+)MBGL_SHADER";
 
-  } // namespace shaders
-  } // namespace mbgl
-  
+} // namespace shaders
+} // namespace mbgl

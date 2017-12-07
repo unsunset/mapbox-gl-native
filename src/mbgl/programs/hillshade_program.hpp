@@ -10,7 +10,6 @@
 namespace mbgl {
 
 namespace uniforms {
-MBGL_DEFINE_UNIFORM_SCALAR(int, u_mode);
 MBGL_DEFINE_UNIFORM_SCALAR(Color, u_shadow);
 MBGL_DEFINE_UNIFORM_SCALAR(Color, u_highlight);
 MBGL_DEFINE_UNIFORM_SCALAR(Color, u_accent);
@@ -26,7 +25,6 @@ class HillshadeProgram : public Program<
         attributes::a_texture_pos>,
     gl::Uniforms<
         uniforms::u_matrix,
-        uniforms::u_mode,
         uniforms::u_image,
         uniforms::u_highlight,
         uniforms::u_shadow,

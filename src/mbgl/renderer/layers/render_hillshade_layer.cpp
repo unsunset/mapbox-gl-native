@@ -71,7 +71,6 @@ void RenderHillshadeLayer::render(PaintParameters& parameters, RenderSource*) {
             parameters.colorModeForRenderPass(),
             HillshadeProgram::UniformValues {
                 uniforms::u_matrix::Value{ matrix },
-                uniforms::u_mode::Value{ 0 },
                 uniforms::u_image::Value{ 0 },
                 uniforms::u_highlight::Value{ evaluated.get<HillshadeHighlightColor>() },
                 uniforms::u_shadow::Value{ evaluated.get<HillshadeShadowColor>() },
