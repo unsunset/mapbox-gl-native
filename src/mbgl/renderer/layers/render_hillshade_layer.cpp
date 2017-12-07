@@ -5,6 +5,7 @@
 #include <mbgl/renderer/render_static_data.hpp>
 #include <mbgl/programs/programs.hpp>
 #include <mbgl/programs/hillshade_program.hpp>
+#include <mbgl/programs/hillshade_prepare_program.hpp>
 #include <mbgl/tile/tile.hpp>
 #include <mbgl/style/layers/hillshade_layer_impl.hpp>
 #include <mbgl/util/geo.hpp>
@@ -101,6 +102,7 @@ void RenderHillshadeLayer::render(PaintParameters& parameters, RenderSource*) {
             view.bind();
             
             parameters.context.bindTexture(*bucket.dem, 0, gl::TextureFilter::Linear, gl::TextureMipMap::Yes);
+            const Properties<>::PossiblyEvaluated properties;
 
             mat4 mat;
             matrix::ortho(mat, 0, util::EXTENT, -util::EXTENT, 0, 0, 1);
@@ -115,14 +117,14 @@ void RenderHillshadeLayer::render(PaintParameters& parameters, RenderSource*) {
                 HillshadePrepareProgram::UniformValues {
                     uniforms::u_matrix::Value { mat },
                     uniforms::u_dimension::Value { {{512, 512 }} },
-                    uniforms::u_zoom::Value{ static_cast<float>(tile.id.canonical.z) },
+                    uniforms::u_zoom::Value{ float(tile.id.canonical.z) },
                     uniforms::u_image::Value{ 0 }
                 },
                 parameters.staticData.rasterVertexBuffer,
                 parameters.staticData.quadTriangleIndexBuffer,
                 parameters.staticData.rasterSegments,
-                HillshadePrepareProgram::PaintPropertyBinders { evaluated, 0 },
-                evaluated,
+                HillshadePrepareProgram::PaintPropertyBinders { properties, 0 },
+                properties,
                 parameters.state.getZoom(),
                 getID()
             );
