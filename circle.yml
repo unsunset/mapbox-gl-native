@@ -22,7 +22,7 @@ workflows:
           filters:
             tags:
               only: /node-.*/
-      - linux-clang39-debug
+      - linux-clang-3.8-libcxx-debug
       - linux-clang4-sanitize-address
       - linux-clang4-sanitize-undefined
       - linux-clang4-sanitize-thread
@@ -216,7 +216,7 @@ jobs:
 # ------------------------------------------------------------------------------
   clang-tidy:
     docker:
-      - image: mbgl/de3c86c2ff:linux-clang-3.9
+      - image: mbgl/562b8a9fa4:linux-clang-3.9
     working_directory: /src
     environment:
       LIBSYSCONFCPUS: 4
@@ -242,7 +242,7 @@ jobs:
 # ------------------------------------------------------------------------------
   android-debug-arm-v7:
     docker:
-      - image: mbgl/de3c86c2ff:android-ndk-r16
+      - image: mbgl/562b8a9fa4:android-ndk-r16
     resource_class: large
     working_directory: /src
     environment:
@@ -381,7 +381,7 @@ jobs:
 # ------------------------------------------------------------------------------
   node4-clang39-release:
     docker:
-      - image: mbgl/de3c86c2ff:linux-clang-3.9-node-4
+      - image: mbgl/562b8a9fa4:linux-clang-3.9-node-4
     working_directory: /src
     environment:
       LIBSYSCONFCPUS: 4
@@ -404,7 +404,7 @@ jobs:
 # ------------------------------------------------------------------------------
   node6-clang39-release:
     docker:
-      - image: mbgl/de3c86c2ff:linux-clang-3.9
+      - image: mbgl/562b8a9fa4:linux-clang-3.9
     working_directory: /src
     environment:
       LIBSYSCONFCPUS: 4
@@ -427,7 +427,7 @@ jobs:
 # ------------------------------------------------------------------------------
   node6-gcc6-debug:
     docker:
-      - image: mbgl/de3c86c2ff:linux-gcc-6
+      - image: mbgl/562b8a9fa4:linux-gcc-6
     resource_class: large
     working_directory: /src
     environment:
@@ -448,15 +448,16 @@ jobs:
       - *upload-render-tests-recycle-map
 
 # ------------------------------------------------------------------------------
-  linux-clang39-debug:
+  linux-clang-3.8-libcxx-debug:
     docker:
-      - image: mbgl/de3c86c2ff:linux-clang-3.9
+      - image: mbgl/562b8a9fa4:linux-clang-3.8-libcxx
     working_directory: /src
     environment:
       LIBSYSCONFCPUS: 4
       JOBS: 4
       BUILDTYPE: Debug
       WITH_EGL: 1
+      WITH_CXX11ABI: 0
     steps:
       - checkout
       - *generate-cache-key
@@ -472,7 +473,7 @@ jobs:
 # ------------------------------------------------------------------------------
   linux-clang4-sanitize-address:
     docker:
-      - image: mbgl/de3c86c2ff:linux-clang-4
+      - image: mbgl/562b8a9fa4:linux-clang-4
     working_directory: /src
     environment:
       LIBSYSCONFCPUS: 4
@@ -502,7 +503,7 @@ jobs:
 # ------------------------------------------------------------------------------
   linux-clang4-sanitize-undefined:
     docker:
-      - image: mbgl/de3c86c2ff:linux-clang-4
+      - image: mbgl/562b8a9fa4:linux-clang-4
     working_directory: /src
     environment:
       LIBSYSCONFCPUS: 4
@@ -532,7 +533,7 @@ jobs:
 # ------------------------------------------------------------------------------
   linux-clang4-sanitize-thread:
     docker:
-      - image: mbgl/de3c86c2ff:linux-clang-4
+      - image: mbgl/562b8a9fa4:linux-clang-4
     working_directory: /src
     environment:
       LIBSYSCONFCPUS: 4
@@ -562,7 +563,7 @@ jobs:
 # ------------------------------------------------------------------------------
   linux-gcc4.9-debug:
     docker:
-      - image: mbgl/de3c86c2ff:linux-gcc-4.9
+      - image: mbgl/562b8a9fa4:linux-gcc-4.9
     resource_class: large
     working_directory: /src
     environment:
@@ -587,7 +588,7 @@ jobs:
 # ------------------------------------------------------------------------------
   linux-gcc5-debug-coverage:
     docker:
-      - image: mbgl/de3c86c2ff:linux-gcc-5
+      - image: mbgl/562b8a9fa4:linux-gcc-5
     resource_class: large
     working_directory: /src
     environment:
@@ -615,7 +616,7 @@ jobs:
 # ------------------------------------------------------------------------------
   linux-gcc5-release-qt4:
     docker:
-      - image: mbgl/de3c86c2ff:linux-gcc-5-qt-4
+      - image: mbgl/562b8a9fa4:linux-gcc-5-qt-4
     resource_class: large
     working_directory: /src
     environment:
@@ -643,7 +644,7 @@ jobs:
 # ------------------------------------------------------------------------------
   linux-gcc5-release-qt5:
     docker:
-      - image: mbgl/de3c86c2ff:linux-gcc-5-qt-5.9
+      - image: mbgl/562b8a9fa4:linux-gcc-5-qt-5.9
     resource_class: large
     working_directory: /src
     environment:
